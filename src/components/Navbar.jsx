@@ -1,14 +1,16 @@
-import {Button, IconButton, Toolbar, Typography} from '@mui/material'
+import {Button, Chip, IconButton, Toolbar, Typography} from '@mui/material'
 import {useContext} from 'react'
 import {useSnackbar} from 'notistack'
+import LogoutIcon from '@mui/icons-material/Logout'
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar from '@mui/material/AppBar'
 import styled from '@emotion/styled'
 
 import {logoutAction} from '../context/actions/auth'
+import {logoutSettingsAction} from '../context/actions/settings'
 import appContext from '../context/AppContext'
 
-const drawerWidth = 240
+const drawerWidth = 260
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -29,12 +31,14 @@ const AppBar = styled(MuiAppBar, {
 }))
 
 const Navbar = ({open, toggleDrawer}) => {
-  const {user, dispatch} = useContext(appContext)
+  const {user, dispatch, dispatchSettings} = useContext(appContext)
+  const {rol} = user
 
   const {enqueueSnackbar} = useSnackbar()
 
   const logout = () => {
     dispatch(logoutAction())
+    dispatchSettings(logoutSettingsAction())
 
     enqueueSnackbar('Sesión cerrada', {
       variant: 'warning',
@@ -66,13 +70,19 @@ const Navbar = ({open, toggleDrawer}) => {
           <MenuIcon />
         </IconButton>
         <Typography noWrap color="inherit" component="h1" sx={{flexGrow: 1}} variant="h5">
-          Dashboard
+          Agencia de turismo
         </Typography>
         <Typography
-          marginRight={4}
-          variant="body2"
-        >{`Hola, ${user.firstname} ${user.lastname}`}</Typography>
-        <Button color="inherit" onClick={logout}>
+          sx={{marginRight: 5}}
+          variant="overline"
+        >{`${user.nombre} ${user.apellido} (${rol.name})`}</Typography>
+        <Button
+          disableElevation
+          color="primary"
+          endIcon={<LogoutIcon />}
+          variant="contained"
+          onClick={logout}
+        >
           Salir
         </Button>
       </Toolbar>

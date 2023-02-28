@@ -30,7 +30,7 @@ const CustomSelect = ({name, options, ...otherProps}) => {
     <TextField {...configSelect}>
       {options.map((item) => (
         <MenuItem key={item.id} value={item.id}>
-          {item.name}
+          {item.name || item.id}
         </MenuItem>
       ))}
     </TextField>

@@ -10,6 +10,7 @@ const CustomDatePicker = ({name, label, ...otherProps}) => {
     type: 'date',
     variant: 'outlined',
     fullWidth: true,
+    label,
     InputLabelProps: {
       shrink: true,
     },
