@@ -316,12 +316,12 @@ const Table = ({
             <Select
               name="field"
               size="small"
-              sx={{m: 1, minWidth: 170}}
+              sx={{m: 1, minWidth: 185}}
               value={field}
               onChange={(e) => setField(e.target.value)}
             >
               <MenuItem value="documento">documento</MenuItem>
-              <MenuItem value="codigo">cód. contrato</MenuItem>
+              <MenuItem value="codigo">código contrato</MenuItem>
             </Select>
             <TextField
               name="query"

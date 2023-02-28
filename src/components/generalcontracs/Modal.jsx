@@ -152,7 +152,7 @@ const Modal = ({activeData, handleClose, open}) => {
                         <TableHead>
                           <TableRow>
                             <TableCell align="center" width="15%">
-                              Cód. Contrato
+                              cód. Contrato
                             </TableCell>
                             <TableCell align="center" width="20%">
                               Estado

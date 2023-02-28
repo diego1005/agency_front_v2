@@ -1,4 +1,5 @@
-import {Grid, Paper} from '@mui/material'
+/* eslint-disable no-nested-ternary */
+import {Grid, Paper, Typography} from '@mui/material'
 import {useEffect, useRef, useState} from 'react'
 import {useSearchParams} from 'react-router-dom'
 
@@ -113,8 +114,17 @@ const Payments = () => {
             mb: 2,
           }}
         >
-          {!passengerCodes || passengerCodes.length < 0 ? (
+          {!passengerCodes ? (
             <Spinner height={275} />
+          ) : passengerCodes.length === 0 ? (
+            <>
+              <Typography align="center" color="GrayText" variant="h6">
+                No se encontraron Contratos Individuales
+              </Typography>
+              <Typography align="center" variant="button">
+                No es posible crear un pago
+              </Typography>
+            </>
           ) : (
             <SeachPassengerForm
               form1Ref={form1Ref}

@@ -265,12 +265,12 @@ const Table = ({generalContract, setInitialValues}) => {
             <Select
               name="field"
               size="small"
-              sx={{m: 1, minWidth: 170}}
+              sx={{m: 1, minWidth: 185}}
               value={field}
               onChange={(e) => setField(e.target.value)}
             >
-              <MenuItem value="name">Nom. Institución</MenuItem>
-              <MenuItem value="code">cód. contrato</MenuItem>
+              <MenuItem value="name">nombre institución</MenuItem>
+              <MenuItem value="code">código contrato</MenuItem>
             </Select>
             <TextField
               name="query"

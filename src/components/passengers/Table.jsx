@@ -204,7 +204,7 @@ const Table = ({passenger, setInitialValues, up}) => {
             <Select
               name="field"
               size="small"
-              sx={{m: 1, minWidth: 170}}
+              sx={{m: 1, minWidth: 185}}
               value={field}
               onChange={(e) => setField(e.target.value)}
             >

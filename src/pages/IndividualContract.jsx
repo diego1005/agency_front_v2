@@ -1,4 +1,5 @@
-import {Grid, Paper} from '@mui/material'
+/* eslint-disable no-nested-ternary */
+import {Grid, Paper, Typography} from '@mui/material'
 import {useRef} from 'react'
 import {useSearchParams} from 'react-router-dom'
 
@@ -28,8 +29,17 @@ const IndividualContracts = () => {
             mb: 2,
           }}
         >
-          {!passengerCodes || !generalContractCodes || generalContractCodes.length < 0 ? (
+          {!passengerCodes || !generalContractCodes ? (
             <Spinner height={340} />
+          ) : passengerCodes.length === 0 || generalContractCodes.length === 0 ? (
+            <>
+              <Typography align="center" color="GrayText" variant="h6">
+                No se encontraron Pasajeros y/o Contratos Generales
+              </Typography>
+              <Typography align="center" variant="button">
+                No es posible crear un Contrato Individual
+              </Typography>
+            </>
           ) : (
             <Form
               generalContractCodes={generalContractCodes}
