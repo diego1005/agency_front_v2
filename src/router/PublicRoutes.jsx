@@ -6,7 +6,9 @@ import AppContext from '../context/AppContext'
 const PublicRoutes = ({children}) => {
   const {user} = useContext(AppContext)
 
-  return user?.role?.name === 'super' || user?.role?.name === 'editor' ? (
+  return user?.rol?.name === 'super' ||
+    user?.rol?.name === 'admin' ||
+    user?.rol?.name === 'user' ? (
     <Navigate to="/dashboard" />
   ) : (
     children

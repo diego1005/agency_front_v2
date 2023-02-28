@@ -1,13 +1,14 @@
 import {Divider, IconButton, List, Toolbar} from '@mui/material'
+import {useContext} from 'react'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import MuiDrawer from '@mui/material/Drawer'
 import styled from '@emotion/styled'
 
-import {mainListItems, secondaryListItems} from './List'
-import {useContext} from 'react'
 import appContext from '../../context/AppContext'
 
-const drawerWidth = 240
+import {mainListItems, adminListItems, superListItems} from './List'
+
+const drawerWidth = 260
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
   ({theme, open}) => ({
@@ -28,7 +29,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
         }),
         width: theme.spacing(7),
         [theme.breakpoints.up('sm')]: {
-          width: theme.spacing(9),
+          width: theme.spacing(7),
         },
       }),
     },
@@ -55,10 +56,16 @@ const Aside = ({open, toggleDrawer}) => {
       <Divider />
       <List component="nav">
         {mainListItems}
-        {user.role.name === 'super' && (
+        {(user.rol.name === 'super' || user.rol.name === 'admin') && (
           <>
             <Divider sx={{my: 1}} />
-            {secondaryListItems}
+            {adminListItems}
+          </>
+        )}
+        {user.rol.name === 'super' && (
+          <>
+            <Divider sx={{my: 1}} />
+            {superListItems}
           </>
         )}
       </List>

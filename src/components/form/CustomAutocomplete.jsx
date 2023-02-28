@@ -20,10 +20,10 @@ const CustomAutocomplete = ({
     <Autocomplete
       {...props}
       {...field}
-      disableClearable
+      // disableClearable
       filterOptions={filterOptions}
-      getOptionLabel={(option) => (option ? option.appointment : '')}
       isOptionEqualToValue={(option, value) => option.value === value?.value}
+      noOptionsText="No existe"
       options={[...options]}
       renderInput={(otherProps) => (
         <TextField

@@ -1,22 +1,25 @@
-import {Divider} from '@mui/material'
+import {Divider, Typography} from '@mui/material'
 import {NavLink} from 'react-router-dom'
-import AccessTimeIcon from '@mui/icons-material/AccessTime'
-import AttachmentIcon from '@mui/icons-material/Attachment'
-import BadgeIcon from '@mui/icons-material/Badge'
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import AirlineSeatLegroomNormalIcon from '@mui/icons-material/AirlineSeatLegroomNormal'
+import ApartmentIcon from '@mui/icons-material/Apartment'
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import EventNoteIcon from '@mui/icons-material/EventNote'
+import DescriptionIcon from '@mui/icons-material/Description'
+import EscalatorWarningIcon from '@mui/icons-material/EscalatorWarning'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ListSubheader from '@mui/material/ListSubheader'
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital'
-import PersonIcon from '@mui/icons-material/Person'
-import WatchLaterIcon from '@mui/icons-material/WatchLater'
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn'
+import RequestQuoteIcon from '@mui/icons-material/RequestQuote'
+import SettingsIcon from '@mui/icons-material/Settings'
+import TaskIcon from '@mui/icons-material/Task'
+import NoteAddIcon from '@mui/icons-material/NoteAdd'
 
 const styles = {
   active: {
-    backgroundColor: '#F5F5F5',
-    color: '#1976D2',
+    backgroundColor: '#ede4f5',
+    // color: '#1976D2',
     display: 'flex',
     textDecoration: 'none',
   },
@@ -33,80 +36,131 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
     </NavLink>
-    <Divider sx={{my: 1}} />
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/a">
+    <Divider />
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/passengers"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <AccessTimeIcon />
+          <AirlineSeatLegroomNormalIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Pasajeros" />
       </ListItemButton>
     </NavLink>
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/b">
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/responsible-seniors"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <WatchLaterIcon />
+          <EscalatorWarningIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Responsables" />
       </ListItemButton>
     </NavLink>
-    <Divider sx={{my: 1}} />
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/c">
+    <Divider />
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/general-contracts"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <EventNoteIcon />
+          <DescriptionIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Contratos Generales" />
       </ListItemButton>
     </NavLink>
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/d">
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/individual-contracts-list"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <AttachmentIcon />
+          <TaskIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Contratos individuales" secondary="Listar/Editar" />
       </ListItemButton>
     </NavLink>
-    <Divider sx={{my: 1}} />
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/e">
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/individual-contracts"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <PersonIcon />
+          <NoteAddIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Contratos individuales" secondary="Crear" />
       </ListItemButton>
     </NavLink>
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/f">
+    <Divider />
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/payments"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <LocalHospitalIcon />
+          <MonetizationOnIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
-      </ListItemButton>
-    </NavLink>
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/g">
-      <ListItemButton>
-        <ListItemIcon>
-          <BadgeIcon />
-        </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Cargar un Pago" />
       </ListItemButton>
     </NavLink>
   </>
 )
 
-export const secondaryListItems = (
+export const adminListItems = (
   <>
     <ListSubheader inset component="div">
-      Sólo Super Admin
+      <Typography color="primary" sx={{fontWeight: 'bold'}} variant="caption">
+        ADMINISTRADOR
+      </Typography>
     </ListSubheader>
-    <NavLink style={({isActive}) => (isActive ? styles.active : styles.inactive)} to="/dashboard/h">
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/institutions"
+    >
       <ListItemButton>
         <ListItemIcon>
-          <EventNoteIcon />
+          <ApartmentIcon />
         </ListItemIcon>
-        <ListItemText primary="EJEMPLO" />
+        <ListItemText primary="Colegios/Instituciones" />
+      </ListItemButton>
+    </NavLink>
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/balance"
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <RequestQuoteIcon />
+        </ListItemIcon>
+        <ListItemText primary="Caja/Balance" />
+      </ListItemButton>
+    </NavLink>
+    <NavLink
+      style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+      to="/dashboard/users"
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <AdminPanelSettingsIcon />
+        </ListItemIcon>
+        <ListItemText primary="Usuarios" />
       </ListItemButton>
     </NavLink>
   </>
+)
+
+export const superListItems = (
+  <NavLink
+    style={({isActive}) => (isActive ? styles.active : styles.inactive)}
+    to="/dashboard/tour-packages"
+  >
+    <ListItemButton>
+      <ListItemIcon>
+        <SettingsIcon />
+      </ListItemIcon>
+      <ListItemText primary="Parámetros del sitio" />
+    </ListItemButton>
+  </NavLink>
 )

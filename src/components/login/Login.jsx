@@ -1,6 +1,5 @@
-import {Button, Stack, Grid, Box, Typography, Container} from '@mui/material'
+import {Button, Stack, Box, Typography, Container} from '@mui/material'
 import {Formik, Form, ErrorMessage} from 'formik'
-import {Link} from 'react-router-dom'
 import {useContext} from 'react'
 import {useSnackbar} from 'notistack'
 
@@ -20,9 +19,10 @@ const SignIn = () => {
 
   const login = async (body) => {
     try {
-      const {msg, user} = await postRequest('/auth/login', body)
+      const {user, token} = await postRequest('/auth/login', body)
 
       localStorage.write('user', {...user, logged: true})
+      localStorage.write('token', token)
 
       dispatch(loginAction(user))
       enqueueSnackbar('Login exitoso', {
@@ -49,9 +49,11 @@ const SignIn = () => {
 
   return (
     <Formik
-      initialValues={{username: '', password: ''}}
+      initialValues={{email: '', password: ''}}
+      validateOnBlur={false}
+      validateOnChange={false}
       validationSchema={validationSchemaLogin}
-      onSubmit={(body) => login(body)}
+      onSubmit={login}
     >
       <Container
         maxWidth="sm"
@@ -67,14 +69,11 @@ const SignIn = () => {
           <Typography color="primary" component="h1" variant="h2">
             Tourism Agency
           </Typography>
-          <Typography component="h1" variant="h6">
-            Ingresar
-          </Typography>
           <Box sx={{mt: 1}}>
             <Form style={{width: '100%'}}>
               <Stack p={1} spacing={1}>
-                <CustomTextField label="Email" name="username" style={{width: 360}} />
-                <ErrorMessage component={FormError} name="username" />
+                <CustomTextField label="Email" name="email" style={{width: 360}} />
+                <ErrorMessage component={FormError} name="email" />
                 <CustomTextField
                   fullWidth
                   label="Contraseña"
@@ -83,18 +82,16 @@ const SignIn = () => {
                   type="password"
                 />
                 <ErrorMessage component={FormError} name="password" />
-                <Button /* disabled={} */ type="submit" variant="contained">
+                <Button
+                  /* disabled={} */
+                  sx={{paddingY: '12px'}}
+                  type="submit"
+                  variant="contained"
+                >
                   Ingresar
                 </Button>
               </Stack>
             </Form>
-            <Grid container justifyContent="center">
-              <Grid item>
-                {/* <Link style={{textDecoration: 'none'}} to="/register" variant="body2">
-                  ¿No tiene cuenta? Regístrate
-                </Link> */}
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>
