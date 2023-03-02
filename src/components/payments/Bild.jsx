@@ -115,13 +115,22 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
         <div style={{border: '1px solid #888888', padding: '16px'}}>
           <div style={{minHeight: '250px'}}>
             <Typography sx={{fontSize: 18}} variant="body1">
-              Recibí la suma de: {formatCurrency(initialValues2.movimiento.importe)} (
-              {NumeroALetras(initialValues2.movimiento.importe, {
-                plural: 'PESOS',
-                singular: 'PESO',
-                centPlural: 'CENTAVOS',
-                centSingular: 'CENTAVO',
-              })}
+              Recibí la suma de:{' '}
+              {formatCurrency(
+                Number(initialValues2.movimiento.importe) -
+                  Number(initialValues2.movimiento.descuento)
+              )}{' '}
+              (
+              {NumeroALetras(
+                Number(initialValues2.movimiento.importe) -
+                  Number(initialValues2.movimiento.descuento),
+                {
+                  plural: 'PESOS',
+                  singular: 'PESO',
+                  centPlural: 'CENTAVOS',
+                  centSingular: 'CENTAVO',
+                }
+              )}
               ), en concepto de {splitInfo[0].toString()}.
             </Typography>
             <Typography sx={{fontSize: 18}} variant="body1">
@@ -143,7 +152,11 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
           <Grid item style={{borderRight: '1px solid black'}} xs={6}>
             <Box sx={{borderWidth: 2, borderColor: '#0000', borderStyle: 'solid'}}>
               <Typography sx={{marginTop: 9}} variant="h5">
-                Total: {formatCurrency(initialValues2.movimiento.importe)}
+                Total:{' '}
+                {formatCurrency(
+                  Number(initialValues2.movimiento.importe) -
+                    Number(initialValues2.movimiento.descuento)
+                )}
               </Typography>
             </Box>
           </Grid>
