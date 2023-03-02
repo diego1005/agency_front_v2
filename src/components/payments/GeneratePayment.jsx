@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import {Avatar, Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {ErrorMessage, Formik, Form} from 'formik'
 import {useContext} from 'react'
@@ -13,7 +14,11 @@ const operation = [{id: 'ingreso'}, {id: 'egreso'}]
 const type = [{id: 'efectivo'}, {id: 'debito'}, {id: 'credito'}, {id: 'transferencia'}]
 
 const GeneratePayment = ({initialValues2, setInitialValues2, setShowBill, form2Ref, hardReset}) => {
-  const {bottom, handleScroll} = useContext(appContext)
+  const {
+    bottom,
+    handleScroll,
+    user: {id_rol},
+  } = useContext(appContext)
   const handleFormSubmit = (obj) => {
     setInitialValues2(obj)
     setShowBill(true)
@@ -57,6 +62,13 @@ const GeneratePayment = ({initialValues2, setInitialValues2, setShowBill, form2R
                 <ErrorMessage component={FormError} name="movimiento.tipo" />
                 <CustomSelect label="Forma de pago" name="movimiento.forma_pago" options={type} />
                 <ErrorMessage component={FormError} name="movimiento.forma_pago" />
+                <CustomTextField
+                  autoComplete="off"
+                  disabled={id_rol > 2}
+                  label="Descuento a aplicar"
+                  name="movimiento.descuento"
+                />
+                <ErrorMessage component={FormError} name="movimiento.descuento" />
               </Stack>
             </Grid>
             <Grid item md={12} xs={12}>

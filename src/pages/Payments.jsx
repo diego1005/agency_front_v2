@@ -26,6 +26,8 @@ const Payments = () => {
       tipo: 'ingreso',
       forma_pago: 'efectivo',
       info: 'pago de cuota',
+      descuento: '0',
+      descuento_descripcion: '',
     },
     contratoIndividual: {
       pago: 0,
@@ -85,6 +87,8 @@ const Payments = () => {
         tipo: 'ingreso',
         forma_pago: 'efectivo',
         info: 'Pago de cuota',
+        descuento: '0',
+        descuento_descripcion: '',
       },
       contratoIndividual: {
         pago: 0,

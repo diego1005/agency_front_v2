@@ -128,6 +128,7 @@ const InstallmentCard = ({
                   ...prev.movimiento,
                   importe: installment.valor_segundo_vencimiento,
                   info,
+                  descuento_descripcion: `Descuento en pado de cuota ${installment.numero} de ${installments}. Contrato Individual: ${installment.contrato_individual.cod_contrato}`,
                 },
                 contratoIndividual: {
                   pago: installment.valor_primer_vencimiento,
@@ -146,6 +147,7 @@ const InstallmentCard = ({
                   ...prev.movimiento,
                   importe: installment.valor_primer_vencimiento,
                   info,
+                  descuento_descripcion: `Descuento en pado de cuota ${installment.numero} de ${installments}. Contrato Individual: ${installment.contrato_individual.cod_contrato}`,
                 },
                 contratoIndividual: {
                   pago: installment.valor_primer_vencimiento,
