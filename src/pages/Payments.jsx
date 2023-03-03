@@ -27,7 +27,8 @@ const Payments = () => {
       forma_pago: 'efectivo',
       info: 'pago de cuota',
       descuento: '0',
-      descuento_descripcion: '',
+      recargo: '0',
+      diferencia_descripcion: '',
     },
     contratoIndividual: {
       pago: 0,
@@ -88,7 +89,8 @@ const Payments = () => {
         forma_pago: 'efectivo',
         info: 'Pago de cuota',
         descuento: '0',
-        descuento_descripcion: '',
+        recargo: '0',
+        diferencia_descripcion: '',
       },
       contratoIndividual: {
         pago: 0,
@@ -145,6 +147,7 @@ const Payments = () => {
           )}
           {showInstallments && (
             <InstallmentsTable
+              initialValues2={initialValues2}
               installments={installments}
               isFetchingInstallments={isFetchingInstallments}
               setInitialValues2={setInitialValues2}

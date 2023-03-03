@@ -15,6 +15,7 @@ const InstallmentCard = ({
   checked,
   idx,
   installments,
+  initialValues2,
 }) => {
   const {handleScroll, bottom} = useContext(appContext)
 
@@ -123,12 +124,15 @@ const InstallmentCard = ({
             if (today >= firstExpiration) {
               setInitialValues2((prev) => ({
                 ...prev,
+                cod_contrato: installment.contrato_individual.cod_contrato,
                 cuota: {id: installment.id, estado: 'pagada'},
                 movimiento: {
                   ...prev.movimiento,
-                  importe: installment.valor_segundo_vencimiento,
+                  importe:
+                    Number(installment.valor_segundo_vencimiento) +
+                    Number(initialValues2.movimiento.recargo) -
+                    Number(initialValues2.movimiento.descuento),
                   info,
-                  descuento_descripcion: `Descuento en pado de cuota ${installment.numero} de ${installments}. Contrato Individual: ${installment.contrato_individual.cod_contrato}`,
                 },
                 contratoIndividual: {
                   pago: installment.valor_primer_vencimiento,
@@ -142,12 +146,15 @@ const InstallmentCard = ({
             if (today < firstExpiration) {
               setInitialValues2((prev) => ({
                 ...prev,
+                cod_contrato: installment.contrato_individual.cod_contrato,
                 cuota: {id: installment.id, estado: 'pagada'},
                 movimiento: {
                   ...prev.movimiento,
-                  importe: installment.valor_primer_vencimiento,
+                  importe:
+                    Number(installment.valor_segundo_vencimiento) +
+                    Number(initialValues2.movimiento.recargo) -
+                    Number(initialValues2.movimiento.descuento),
                   info,
-                  descuento_descripcion: `Descuento en pado de cuota ${installment.numero} de ${installments}. Contrato Individual: ${installment.contrato_individual.cod_contrato}`,
                 },
                 contratoIndividual: {
                   pago: installment.valor_primer_vencimiento,
