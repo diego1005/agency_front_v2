@@ -29,8 +29,10 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
   })
 
   const fede = () => {
-    setDisabled(false)
     handlePrint()
+    setTimeout(() => {
+      setDisabled(false)
+    }, 2000)
   }
 
   const onSuccess = (res) => {
@@ -63,7 +65,7 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
           Imprimir Recibo / Confirmar pago
         </Typography>
       </Box>
-      <div ref={componentRef} style={{margin: '16px auto', width: '80%', position: 'relative'}}>
+      <div ref={componentRef} style={{margin: '16px auto', width: '90%', position: 'relative'}}>
         <div
           style={{
             border: '2px solid black',
@@ -117,10 +119,10 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
           <Typography sx={{fontSize: 16}} variant="h6">
             Señor/es: {initialValues2.destinatario}
           </Typography>
-          <Typography sx={{fontSize: 18}} variant="h6">
+          <Typography sx={{fontSize: 16}} variant="h6">
             DNI: {initialValues2.DNI}
           </Typography>
-          <Typography sx={{fontSize: 18}} variant="h6">
+          <Typography sx={{fontSize: 16}} variant="h6">
             Domicilio: {initialValues2.domicilio}
           </Typography>
         </div>
@@ -143,10 +145,10 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
                     Number(initialValues2.movimiento.recargo) -
                     Number(initialValues2.movimiento.descuento),
                   {
-                    plural: 'PESOS',
-                    singular: 'PESO',
-                    centPlural: 'CENTAVOS',
-                    centSingular: 'CENTAVO',
+                    plural: 'pesos',
+                    singular: 'peso',
+                    centPlural: 'centavos',
+                    centSingular: 'centavo',
                   }
                 )}
                 )

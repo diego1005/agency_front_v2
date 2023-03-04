@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import {Avatar, Box, Button, Divider, Grid, Stack, Typography} from '@mui/material'
+import {Avatar, Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {ErrorMessage, Formik, Form, useFormikContext} from 'formik'
 import {useContext, useEffect, useState} from 'react'
 
