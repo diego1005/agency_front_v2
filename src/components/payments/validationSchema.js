@@ -16,7 +16,7 @@ export const validationSchema2 = Yup.object({
   movimiento: Yup.object().shape({
     importe: Yup.string().required('El movimiento es requerido.'),
     tipo: Yup.string().required('El movimiento es requerido.'),
-    forma_pago: Yup.string().required('El movimiento es requerido.'),
+    forma_pago: Yup.string().required('La forma de pago es requerida.'),
     info: Yup.string().required('El movimiento es requerido.'),
     recargo: Yup.string().matches(/^[0-9]+$/, 'Sólo se aceptan números.'),
     descuento: Yup.string().matches(
