@@ -13,8 +13,8 @@ import {
   Typography,
 } from '@mui/material'
 import {ErrorMessage, Form, Formik} from 'formik'
-import {useContext, useEffect} from 'react'
 import {nanoid} from 'nanoid'
+import {useContext, useEffect} from 'react'
 import TaskAltSharpIcon from '@mui/icons-material/TaskAltSharp'
 
 import {useRecalculate} from '../../../hooks/useIndividualContracts'
@@ -37,7 +37,7 @@ const Recalc = ({
 }) => {
   const {top, handleScroll} = useContext(appContext)
 
-  const {resetValues, newImplements} = useIndividualContractsComponents()
+  const {resetValues, newImplements, isLoading} = useIndividualContractsComponents()
   const {recalculated, setRecalculated, newContractValue, setNewContractValue} =
     useListIndividualContract()
 
@@ -46,7 +46,7 @@ const Recalc = ({
     setNewContractValue(res.newContractValue)
   }
 
-  const {mutate: recalculate} = useRecalculate(onSuccess)
+  const {mutate: recalculate, isLoading: isLoadingRecalculate} = useRecalculate(onSuccess)
 
   const handleFormSubmit = async ({nuevo_valor}) => {
     recalculate({id: initialValues.id, nuevo_valor})
@@ -108,7 +108,7 @@ const Recalc = ({
                 disableElevation
                 fullWidth
                 color="primary"
-                disabled={noPaysRemaning}
+                disabled={noPaysRemaning || isLoadingRecalculate}
                 m={2}
                 sx={{paddingY: '12px'}}
                 type="submit"
@@ -126,7 +126,7 @@ const Recalc = ({
                 variant="outlined"
                 onClick={() => {
                   setInitialValues(resetValues)
-                  setShowRecalc(null) // OJO ACA2
+                  setShowRecalc(null)
                   handleScroll(top)
                 }}
               >
@@ -220,7 +220,7 @@ const Recalc = ({
       <Box display="flex" sx={{margin: '0 auto'}}>
         <Button
           color="success"
-          disabled={!newContractValue}
+          disabled={!newContractValue || isLoading}
           startIcon={<TaskAltSharpIcon />}
           sx={{paddingY: '12px'}}
           type="reset"

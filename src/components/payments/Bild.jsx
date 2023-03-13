@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-/* eslint-disable no-plusplus */
 /* eslint-disable react/no-unstable-nested-components */
 import {Avatar, Box, Button, Grid, Stack, Typography} from '@mui/material'
 import {useNavigate} from 'react-router-dom'
@@ -9,14 +8,18 @@ import {useSnackbar} from 'notistack'
 import LocalPrintshopTwoToneIcon from '@mui/icons-material/LocalPrintshopTwoTone'
 import {useReactToPrint} from 'react-to-print'
 
+import {useGetTicket} from '../../hooks/useSettings'
 import formatCurrency from '../../utils/formatCurrency'
 import formatDate from '../../utils/formatDate'
 import logo from '../../assets/logo.png'
 import NumeroALetras from '../../utils/numberToString'
 import useCreatePay from '../../hooks/useInstallments'
+import Spinner from '../Spinner'
 
 const Bill = ({hardReset, initialValues, initialValues2}) => {
   const [disabled, setDisabled] = useState(true)
+
+  const {data} = useGetTicket()
 
   const componentRef = useRef()
 
@@ -47,15 +50,17 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
     })
     hardReset()
     setTimeout(() => {
-      navigate(`/dashboard/individual-contracts-list?id=${initialValues.contratoIndividual.id}`)
+      navigate(`/dashboard/individual-contracts?id=${initialValues.contratoIndividual.id}`)
     }, 3000)
   }
 
-  const {mutate: createPay} = useCreatePay(onSuccess)
+  const {mutate: createPay, isLoading} = useCreatePay(onSuccess)
 
   const today = new Date()
 
   const splitInfo = initialValues2.movimiento.info.split('.')
+
+  if (!data) return <Spinner />
 
   return (
     <>
@@ -105,7 +110,7 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
                 sx={{borderWidth: 2, borderColor: '#0000', borderStyle: 'solid', paddingLeft: 5}}
               >
                 <Typography variant="h5">RECIBO DE PAGO</Typography>
-                <Typography variant="h6">N° 123456789</Typography>
+                <Typography variant="h6">N° {data.ticket.toString().padStart(6, '0')}</Typography>
                 <Box>
                   <Typography align="right" sx={{marginTop: 8}} variant="body1">
                     FECHA: {formatDate(today)}
@@ -127,7 +132,7 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
           </Typography>
         </div>
         <div style={{border: '1px solid #888888', padding: '16px'}}>
-          <div style={{minHeight: '250px'}}>
+          <div style={{minHeight: '175px'}}>
             <Stack direction="row" display="flex">
               <Typography sx={{fontSize: 16}} variant="body1">
                 Recibí la suma de:
@@ -139,7 +144,7 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
                     Number(initialValues2.movimiento.recargo) -
                     Number(initialValues2.movimiento.descuento)
                 )}{' '}
-                (
+                ({' '}
                 {NumeroALetras(
                   Number(initialValues2.movimiento.importe) +
                     Number(initialValues2.movimiento.recargo) -
@@ -151,21 +156,23 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
                     centSingular: 'centavo',
                   }
                 )}
-                )
-              </Typography>
-              <Typography sx={{fontSize: 16}} variant="body1">
-                , en concepto de {splitInfo[0].toString()}.
+                ).
               </Typography>
             </Stack>
             <Typography sx={{fontSize: 16}} variant="body1">
-              {splitInfo[1].toString()}
-              {splitInfo[2].toString()}.
+              {`Concepto: ${splitInfo[0].toString()}.`}
+            </Typography>
+            <Typography sx={{fontSize: 16}} variant="body1">
+              {`Pasajero: ${initialValues2.pasajero}.`}
+            </Typography>
+            <Typography sx={{fontSize: 16}} variant="body1">
+              {`${splitInfo[1].toString()} ${splitInfo[2].toString()}`}
             </Typography>
             <Typography sx={{fontSize: 16}} variant="body1">
               {splitInfo[3].toString()}
             </Typography>
             <Typography sx={{fontSize: 16}} variant="body1">
-              {splitInfo[4].toString()}
+              {splitInfo[4]?.toString()}
             </Typography>
           </div>
           <Typography sx={{fontSize: 16, fontWeight: '500'}} variant="body1">
@@ -188,6 +195,9 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
                   {formatCurrency(Number(initialValues2.movimiento.importe))}
                 </Typography>
               </Stack>
+              {(!initialValues2.movimiento.recargo || !initialValues2.movimiento.descuento) && (
+                <div style={{marginTop: '24px'}} />
+              )}
               {Number(initialValues2.movimiento.recargo) > 0 && (
                 <>
                   <Stack direction="row" display="flex" justifyContent="space-between" mx={1}>
@@ -240,9 +250,9 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
               </Stack>
             </Box>
           </Grid>
-          <Grid item style={{paddingLeft: '16px'}} xs={6}>
+          <Grid item style={{paddingLeft: '32px'}} xs={6}>
             <Box sx={{borderWidth: 2, borderColor: '#0000', borderStyle: 'solid'}}>
-              <Typography sx={{marginTop: 5}} variant="body1">
+              <Typography sx={{marginTop: 4}} variant="body1">
                 Firma: . . . . . . . . . . . . . . . . . . . . . . . . . . . .
               </Typography>
               <Typography sx={{marginTop: 2}} variant="body1">
@@ -268,12 +278,16 @@ const Bill = ({hardReset, initialValues, initialValues2}) => {
         <Grid>
           <Button
             color="primary"
-            disabled={disabled}
+            disabled={disabled || isLoading}
             sx={{paddingY: '12px', m: '16px auto', width: 300}}
             type="button"
             variant="contained"
             onClick={() => {
-              const body = {id: initialValues.contratoIndividual.id, ...initialValues2}
+              const body = {
+                id: initialValues.contratoIndividual.id,
+                ...initialValues2,
+                ticket: data.ticket,
+              }
 
               createPay(body)
             }}

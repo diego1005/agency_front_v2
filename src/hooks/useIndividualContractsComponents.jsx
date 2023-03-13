@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import {useContext, useState} from 'react'
+import {useContext, useEffect, useState} from 'react'
 import {useSearchParams} from 'react-router-dom'
 import {useSnackbar} from 'notistack'
 
@@ -36,8 +36,14 @@ const useIndividualContractsComponents = () => {
     nuevo_valor: '',
   }
 
-  const [searchParams, setSearchParams] = useSearchParams()
-  const list = searchParams.get('list') // OJO ACA3
+  const [searchParams] = useSearchParams()
+  const list = searchParams.get('list')
+  const generalContractCode = searchParams.get('code')
+
+  useEffect(() => {
+    if (!generalContractCode) return
+    setCode(generalContractCode)
+  }, [generalContractCode])
 
   const {enqueueSnackbar} = useSnackbar()
 
@@ -98,8 +104,8 @@ const useIndividualContractsComponents = () => {
     onSuccess,
     onError
   )
-  const {mutate: newImplements} = useNewImplements()
-  const {mutate: putIndividualContract} = usePutIndividualContract()
+  const {mutate: newImplements, isLoading: isLoadingImplements} = useNewImplements()
+  const {mutate: putIndividualContract, isLoading: isLoadingPut} = usePutIndividualContract()
   const {mutate: deleteIndividualContract} = useDeleteIndividualContract()
 
   const handleDelete = (id) => {
@@ -111,21 +117,21 @@ const useIndividualContractsComponents = () => {
     e.preventDefault()
 
     if (field === 'apellido') {
-      setAll(null) // OJO ACA2
-      setDocument(null) // OJO ACA2
-      setCode(null) // OJO ACA2
+      setAll(null)
+      setDocument(null)
+      setCode(null)
       setApellido(e.target.elements.query.value)
     }
     if (field === 'codigo') {
-      setAll(null) // OJO ACA2
-      setDocument(null) // OJO ACA2
-      setApellido(null) // OJO ACA2
+      setAll(null)
+      setDocument(null)
+      setApellido(null)
       setCode(e.target.elements.query.value)
     }
     if (field === 'documento') {
-      setAll(null) // OJO ACA2
-      setCode(null) // OJO ACA2
-      setApellido(null) // OJO ACA2
+      setAll(null)
+      setCode(null)
+      setApellido(null)
       setDocument(e.target.elements.query.value)
     }
     e.target.elements.query.value = ''
@@ -135,6 +141,7 @@ const useIndividualContractsComponents = () => {
     activeData,
     allData,
     dataArray: [...allData, ...dataByCode, ...dataByDocument, ...dataByLastname, ...dataByList],
+    isLoading: isLoadingImplements || isLoadingPut,
     dataByCode,
     field,
     handleCloseDeleteDialog,

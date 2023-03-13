@@ -25,27 +25,21 @@ const InstallmentCard = ({
   const recargo =
     Number(installment.valor_segundo_vencimiento) - Number(installment.valor_primer_vencimiento)
 
-  let info = `pago de cuota ${installment.numero} de ${installments}. Saldo: ${formatCurrency(
+  let info = `Pago de cuota ${installment.numero} de ${installments}. Saldo: ${formatCurrency(
     Number(installment.contrato_individual.valor_contrato) -
       Number(installment.contrato_individual.pagos) -
       Number(installment.valor_primer_vencimiento)
-  )}. Contrato: ${installment.contrato_individual.cod_contrato}. Pasajero: ${
-    installment.contrato_individual.pasajero.nombre
-  } ${installment.contrato_individual.pasajero.apellido}, DNI: ${
-    installment.contrato_individual.pasajero.documento
-  }`
+  )}. Contrato: ${installment.contrato_individual.cod_contrato}.`
 
   if (idx === 0) {
-    info = `pago de seña. Saldo: ${formatCurrency(
+    info = `Pago de seña. Saldo: ${formatCurrency(
       Number(installment.contrato_individual.valor_contrato) -
         Number(installment.contrato_individual.pagos) -
         Number(installment.valor_primer_vencimiento)
-    )}. Contrato: ${installment.contrato_individual.cod_contrato}. Pasajero: ${
-      installment.contrato_individual.pasajero.nombre
-    } ${installment.contrato_individual.pasajero.apellido}, DNI: ${
-      installment.contrato_individual.pasajero.documento
-    }`
+    )}. Contrato: ${installment.contrato_individual.cod_contrato}.`
   }
+
+  const pasajero = `${installment.contrato_individual.pasajero.apellido}, ${installment.contrato_individual.pasajero.nombre}. DNI: ${installment.contrato_individual.pasajero.documento}`
 
   return (
     <Paper
@@ -141,6 +135,7 @@ const InstallmentCard = ({
                 destinatario: `${installment.contrato_individual.pasajero.responsable.nombre} ${installment.contrato_individual.pasajero.responsable.apellido}`,
                 DNI: `${installment.contrato_individual.pasajero.responsable.documento}`,
                 domicilio: `${installment.contrato_individual.pasajero.responsable.direccion}, ${installment.contrato_individual.pasajero.responsable.ciudad} (${installment.contrato_individual.pasajero.responsable.ciudad})`,
+                pasajero,
               }))
             }
             if (today < firstExpiration) {
@@ -151,7 +146,7 @@ const InstallmentCard = ({
                 movimiento: {
                   ...prev.movimiento,
                   importe:
-                    Number(installment.valor_segundo_vencimiento) +
+                    Number(installment.valor_primer_vencimiento) +
                     Number(initialValues2.movimiento.recargo) -
                     Number(initialValues2.movimiento.descuento),
                   info,
@@ -163,6 +158,7 @@ const InstallmentCard = ({
                 destinatario: `${installment.contrato_individual.pasajero.responsable.nombre} ${installment.contrato_individual.pasajero.responsable.apellido}`,
                 DNI: `${installment.contrato_individual.pasajero.responsable.documento}`,
                 domicilio: `${installment.contrato_individual.pasajero.responsable.direccion}, ${installment.contrato_individual.pasajero.responsable.ciudad} (${installment.contrato_individual.pasajero.responsable.ciudad})`,
+                pasajero,
               }))
             }
           }}

@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 import {ErrorMessage, Field, Form, Formik} from 'formik'
-import {useContext, useEffect} from 'react'
+import {useContext} from 'react'
 
 import CustomAutocomplete from '../../form/CustomAutocomplete'
 import CustomSelect from '../../form/CustomSelect'
@@ -202,7 +202,7 @@ const IndividualContractsForm = ({
               <TableBody>
                 <TableRow sx={{'&:last-child td, &:last-child th': {border: 0}}}>
                   <TableCell align="center" component="th" scope="row">
-                    {generalContract.institucion.nombre}
+                    {generalContract?.institucion?.nombre}
                   </TableCell>
                   <TableCell align="center">{generalContract.grado}</TableCell>
                   <TableCell align="center">{generalContract.division}</TableCell>
@@ -290,7 +290,9 @@ const IndividualContractsForm = ({
                     variant="outlined"
                     onClick={() => handleScroll(sendButton)}
                   >
-                    Generar plan de pagos
+                    {generalContract.asientos_totales === generalContract.asientos_ocupados
+                      ? 'No hay lugar disponible (Viaje completo)'
+                      : 'Generar plan de pagos'}
                   </Button>
                 </Grid>
                 <Grid item xs={6}>

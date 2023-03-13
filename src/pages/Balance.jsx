@@ -1,4 +1,5 @@
 import {Grid, Paper, Typography} from '@mui/material'
+import {DateTime} from 'luxon'
 import {useState} from 'react'
 import {useSnackbar} from 'notistack'
 
@@ -14,9 +15,11 @@ import Spinner from '../components/Spinner'
 import Chart from '../components/balance/Graph'
 
 const Balance = () => {
+  const now = DateTime.now().plus({hours: -3})
+
   const [initialValues, setInitialValues] = useState({
-    desde: formatENDate(new Date()),
-    hasta: formatENDate(new Date()),
+    desde: formatENDate(now),
+    hasta: formatENDate(now),
     info: '',
   })
   const [initialValues2, setInitialValues2] = useState({
@@ -60,8 +63,8 @@ const Balance = () => {
     })
   }
 
-  const {data: allData = [], isFetching} = useGetBalance(all, onSuccess, onError)
-  const {mutate: postBalance, isFetching: isFetchingPost} = usePostBalance()
+  const {data: allData = [], isFetching, refetch} = useGetBalance(all, onSuccess, onError)
+  const {mutate: postBalance, isLoading} = usePostBalance()
 
   return (
     <Dashboard>
@@ -76,15 +79,12 @@ const Balance = () => {
           <Typography sx={{marginBottom: 1}} variant="h6">
             Cargar un movimiento
           </Typography>
-          {isFetchingPost ? (
-            <Spinner height={188} />
-          ) : (
-            <ChargeForm
-              initialValues2={initialValues2}
-              postBalance={postBalance}
-              setInitialValues2={setInitialValues2}
-            />
-          )}
+          <ChargeForm
+            initialValues2={initialValues2}
+            isLoading={isLoading}
+            postBalance={postBalance}
+            setInitialValues2={setInitialValues2}
+          />
         </Paper>
       </Grid>
       <Grid item xs={12}>
@@ -98,80 +98,85 @@ const Balance = () => {
           <Typography sx={{marginBottom: 1}} variant="h6">
             Consultar
           </Typography>
-          {isFetching ? (
-            <Spinner height={122} />
-          ) : (
-            <Form
-              initialValues={initialValues}
-              setAll={setAll}
-              setInitialValues={setInitialValues}
-            />
-          )}
+
+          <Form
+            all={all}
+            initialValues={initialValues}
+            refetch={refetch}
+            setAll={setAll}
+            setInitialValues={setInitialValues}
+          />
         </Paper>
       </Grid>
-      {allData?.movements && (
-        <>
-          <Resume allData={allData} />
-          <div style={{flex: 1}} />
-          <Chart allData={allData} />
-          <Grid item xs={12}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <Typography sx={{marginBottom: 1}} variant="h6">
-                Todos los Movimientos
-              </Typography>
+      {isFetching ? (
+        <div style={{margin: '0 auto'}}>
+          <Spinner height={200} />
+        </div>
+      ) : (
+        allData?.movements && (
+          <>
+            <Resume allData={allData} />
+            <div style={{flex: 1}} />
+            <Chart allData={allData} />
+            <Grid item xs={12}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Typography sx={{marginBottom: 1}} variant="h6">
+                  Todos los Movimientos
+                </Typography>
 
-              <TableBig
-                data={allData.movements}
-                isFetching={isFetching}
-                setInitialValues={setInitialValues}
-              />
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <Typography sx={{marginBottom: 1}} variant="h6">
-                Ingresos
-              </Typography>
+                <TableBig
+                  data={allData.movements}
+                  isFetching={isFetching}
+                  setInitialValues={setInitialValues}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Typography sx={{marginBottom: 1}} variant="h6">
+                  Ingresos
+                </Typography>
 
-              <Table
-                data={allData.incomes}
-                isFetching={isFetching}
-                setInitialValues={setInitialValues}
-              />
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <Typography sx={{marginBottom: 1}} variant="h6">
-                Egresos
-              </Typography>
+                <Table
+                  data={allData.incomes}
+                  isFetching={isFetching}
+                  setInitialValues={setInitialValues}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper
+                sx={{
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                <Typography sx={{marginBottom: 1}} variant="h6">
+                  Egresos
+                </Typography>
 
-              <Table
-                data={allData.outcomes}
-                isFetching={isFetching}
-                setInitialValues={setInitialValues}
-              />
-            </Paper>
-          </Grid>
-        </>
+                <Table
+                  data={allData.outcomes}
+                  isFetching={isFetching}
+                  setInitialValues={setInitialValues}
+                />
+              </Paper>
+            </Grid>
+          </>
+        )
       )}
     </Dashboard>
   )

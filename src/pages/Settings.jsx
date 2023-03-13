@@ -1,15 +1,25 @@
+/* eslint-disable camelcase */
 import {Grid, Paper, Typography} from '@mui/material'
+import {Navigate} from 'react-router-dom'
+import {useContext} from 'react'
 import {useSnackbar} from 'notistack'
 
+import appContext from '../context/AppContext'
 import Dashboard from '../components/Dashboard'
 import Form from '../components/Settings/Form'
 import Spinner from '../components/Spinner'
 import useGetSettings from '../hooks/useSettings'
 
 const Settings = () => {
+  const {
+    user: {id_rol},
+  } = useContext(appContext)
+
+  if (id_rol > 1) return <Navigate replace to="/dashboard/passengers" />
+
   const {enqueueSnackbar} = useSnackbar()
 
-  const onSuccess = (res) => {
+  const onSuccess = () => {
     enqueueSnackbar('Parámetros recuperados', {
       variant: 'success',
       autoHideDuration: 3000,
@@ -31,7 +41,7 @@ const Settings = () => {
     })
   }
 
-  const {data: settings, isLoading} = useGetSettings(onSuccess, onError)
+  const {data: settings, isFetching} = useGetSettings(onSuccess, onError)
 
   return (
     <Dashboard>
@@ -46,7 +56,7 @@ const Settings = () => {
           <Typography sx={{marginBottom: 1}} variant="h6">
             Parámetros del sitio
           </Typography>
-          {!settings || isLoading ? <Spinner height={187} /> : <Form settings={settings} />}
+          {!settings || isFetching ? <Spinner height={313} /> : <Form settings={settings} />}
         </Paper>
       </Grid>
     </Dashboard>

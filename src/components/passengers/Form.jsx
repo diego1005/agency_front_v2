@@ -11,8 +11,14 @@ import usePassengersComponents from '../../hooks/usePassengersComponents'
 
 import validationSchema from './validationSchema'
 
-const PassengersForm = ({initialValues, setInitialValues, passenger, responsibleDocuments}) => {
-  const {postPassenger, putPassenger, resetValues} = usePassengersComponents()
+const PassengersForm = ({
+  initialValues,
+  setInitialValues,
+  passenger,
+  responsibleDocuments,
+  setSearchParams,
+}) => {
+  const {postPassenger, putPassenger, resetValues, isLoading} = usePassengersComponents()
 
   const handleFormSubmit = async (value, {resetForm}) => {
     const valuesToUpperCase = {
@@ -28,6 +34,7 @@ const PassengersForm = ({initialValues, setInitialValues, passenger, responsible
       postPassenger({...valuesToUpperCase, documento_responsable: value.documento_responsable?.id})
     }
     setInitialValues(resetValues)
+    setSearchParams({passenger: ''})
     resetForm()
   }
 
@@ -105,6 +112,7 @@ const PassengersForm = ({initialValues, setInitialValues, passenger, responsible
               disableElevation
               fullWidth
               color="primary"
+              disabled={isLoading}
               m={2}
               sx={{paddingY: '12px'}}
               type="submit"
