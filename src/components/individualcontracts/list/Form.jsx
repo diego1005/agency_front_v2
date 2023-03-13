@@ -1,4 +1,5 @@
-import {Box, Button, Chip, Grid, Stack, Typography} from '@mui/material'
+/* eslint-disable camelcase */
+import {Button, Chip, Grid, Stack, Typography} from '@mui/material'
 import {ErrorMessage, Form, Formik} from 'formik'
 import {useContext, useEffect} from 'react'
 
@@ -11,17 +12,25 @@ import useIndividualContractsComponents from '../../../hooks/useIndividualContra
 import validationSchema from './validationSchema'
 import Sheet from './Sheet'
 
-const estados = [{id: 'vigente'}, {id: 'pagado'}, {id: 'terminado'}, {id: 'cancelado'}]
-
 const IndividualContractsForm = ({
   initialValues,
   individualContract,
   setInitialValues,
   setShowEditState,
 }) => {
-  const {top, handleScroll} = useContext(appContext)
+  const {
+    top,
+    handleScroll,
+    user: {id_rol},
+  } = useContext(appContext)
 
-  const {putIndividualContract, resetValues} = useIndividualContractsComponents()
+  let estados = [{id: 'vigente'}, {id: 'pagado'}, {id: 'terminado'}, {id: 'cancelado'}]
+
+  if (id_rol > 1) {
+    estados = [{id: 'vigente'}, {id: 'pagado'}, {id: 'cancelado'}]
+  }
+
+  const {putIndividualContract, resetValues, isLoading} = useIndividualContractsComponents()
 
   const handleFormSubmit = async (value, {resetForm}) => {
     putIndividualContract(value)
@@ -88,8 +97,6 @@ const IndividualContractsForm = ({
               <Stack direction="row" pb={{xs: 1, md: 0}} spacing={1}>
                 <CustomTextField disabled autoComplete="off" label="Código" name="cod_contrato" />
                 <ErrorMessage component={FormError} name="cod_contrato" />
-                <CustomSelect label="Estado" name="estado" options={estados.map((el) => el)} />
-                <ErrorMessage component={FormError} name="estado" />
                 <CustomTextField disabled autoComplete="off" label="Valor" name="valor_contrato" />
                 <ErrorMessage component={FormError} name="valor_contrato" />
                 <CustomTextField
@@ -106,6 +113,8 @@ const IndividualContractsForm = ({
                   name="recargos_pagos_segundo_vencimiento"
                 />
                 <ErrorMessage component={FormError} name="recargos_pagos_segundo_vencimiento" />
+                <CustomSelect label="Estado" name="estado" options={estados.map((el) => el)} />
+                <ErrorMessage component={FormError} name="estado" />
               </Stack>
             </Grid>
           </Grid>
@@ -115,6 +124,7 @@ const IndividualContractsForm = ({
                 disableElevation
                 fullWidth
                 color="primary"
+                disabled={isLoading}
                 m={2}
                 sx={{paddingY: '12px'}}
                 type="submit"

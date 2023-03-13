@@ -8,11 +8,10 @@ import FormError from '../form/FormError'
 import validationSchema from './validationSchema'
 
 const SettingsForm = ({settings}) => {
-  const {mutate: putSettings} = usePutSettings()
+  const {mutate: putSettings, isLoading} = usePutSettings()
 
-  const handleFormSubmit = async (value, {resetForm}) => {
+  const handleFormSubmit = async (value) => {
     putSettings(value)
-    // resetForm()
   }
 
   return (
@@ -47,6 +46,8 @@ const SettingsForm = ({settings}) => {
                 name="porcentaje_senia"
               />
               <ErrorMessage component={FormError} name="porcentaje_senia" />
+              <CustomTextField autoComplete="off" label="N° del siguiente ticket" name="ticket" />
+              <ErrorMessage component={FormError} name="ticket" />
             </Stack>
           </Grid>
           <Grid item md={6} xs={12}>
@@ -59,13 +60,19 @@ const SettingsForm = ({settings}) => {
               <ErrorMessage component={FormError} name="dias_diferencia_cuotas" />
               <CustomTextField
                 autoComplete="off"
+                label="Días de diferencia entre primer y segundo vencimiento"
+                name="dias_diferencia_primer_segundo_pago"
+              />
+              <ErrorMessage component={FormError} name="dias_diferencia_primer_segundo_pago" />
+              <CustomTextField
+                autoComplete="off"
                 label="Porcentaje de recargo por segundo vencimiento"
                 name="porcentaje_recargo_segundo_vencimiento"
               />
               <ErrorMessage component={FormError} name="porcentaje_recargo_segundo_vencimiento" />
               <CustomTextField
                 autoComplete="off"
-                label="Access Token de preducción de Mercadopago"
+                label="Access Token de producción de Mercadopago"
                 name="access_token_produccion"
               />
               <ErrorMessage component={FormError} name="access_token_produccion" />
@@ -78,6 +85,7 @@ const SettingsForm = ({settings}) => {
               disableElevation
               fullWidth
               color="primary"
+              disabled={isLoading}
               m={2}
               sx={{paddingY: '12px'}}
               type="submit"
@@ -86,11 +94,6 @@ const SettingsForm = ({settings}) => {
               Editar
             </Button>
           </Grid>
-          {/*  <Grid item xs={6}>
-            <Button fullWidth color="error" sx={{paddingY: '12px'}} type="reset" variant="outlined">
-              Cancelar
-            </Button>
-          </Grid> */}
         </Grid>
       </Form>
     </Formik>

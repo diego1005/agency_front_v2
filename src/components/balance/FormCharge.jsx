@@ -1,4 +1,3 @@
-/* eslint-disable no-alert */
 import {Button, Grid, Stack} from '@mui/material'
 import {ErrorMessage, Form, Formik, useFormikContext} from 'formik'
 import {useEffect, useState} from 'react'
@@ -36,7 +35,7 @@ const CheckOperationTypes = ({setBtnDisable}) => {
   return null
 }
 
-const BalanceForm = ({initialValues2, setInitialValues2, postBalance}) => {
+const BalanceForm = ({initialValues2, setInitialValues2, postBalance, isLoading}) => {
   const [btnDisable, setBtnDisable] = useState(true)
 
   const handleFormSubmit = async (values, {resetForm}) => {
@@ -88,7 +87,7 @@ const BalanceForm = ({initialValues2, setInitialValues2, postBalance}) => {
               disableElevation
               fullWidth
               color="primary"
-              disabled={btnDisable}
+              disabled={btnDisable || isLoading}
               m={2}
               sx={{paddingY: '12px'}}
               type="submit"

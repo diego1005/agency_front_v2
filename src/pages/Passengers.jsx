@@ -1,6 +1,6 @@
 import {Grid, Paper, Typography} from '@mui/material'
 import {useSearchParams} from 'react-router-dom'
-import {useRef, useState} from 'react'
+import {useState} from 'react'
 
 import {useGetResponsibleDocuments} from '../hooks/useResponsibles'
 import {useGetPassengerById} from '../hooks/usePassengers'
@@ -47,6 +47,7 @@ const Passengers = () => {
               passenger={passenger}
               responsibleDocuments={responsibleDocuments}
               setInitialValues={setInitialValues}
+              setSearchParams={setSearchParams}
             />
           )}
         </Paper>

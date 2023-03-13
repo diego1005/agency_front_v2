@@ -90,8 +90,8 @@ const useResponsiblesComponents = () => {
     onSuccess,
     onError
   )
-  const {mutate: postResponsible} = usePostResponsible()
-  const {mutate: putResponsible} = usePutResponsible()
+  const {mutate: postResponsible, isLoading: isLoadingPost} = usePostResponsible()
+  const {mutate: putResponsible, isLoading: isLoadingPut} = usePutResponsible()
   const {mutate: deleteResponsible} = useDeleteResponsible()
 
   const handleDelete = (id) => {
@@ -103,13 +103,13 @@ const useResponsiblesComponents = () => {
     e.preventDefault()
 
     if (field === 'documento') {
-      setLastname(null) // OJO ACA2
-      setAll(null) // OJO ACA2
+      setLastname(null)
+      setAll(null)
       setDocument(e.target.elements.query.value)
     }
     if (field === 'apellido') {
-      setDocument(null) // OJO ACA2
-      setAll(null) // OJO ACA2
+      setDocument(null)
+      setAll(null)
       setLastname(e.target.elements.query.value)
     }
     e.target.elements.query.value = ''
@@ -119,6 +119,7 @@ const useResponsiblesComponents = () => {
     activeData,
     bottom,
     dataArray: [...allData, ...dataByDocument, ...dataByLastname],
+    isLoading: isLoadingPost || isLoadingPut,
     field,
     handleCloseDeleteDialog,
     handleCloseModal,

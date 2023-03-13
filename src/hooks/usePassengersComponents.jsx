@@ -47,7 +47,7 @@ const usePassengersComponents = () => {
       code = 'warning'
     }
 
-    enqueueSnackbar(`Responsables recuperados: ${res.length}`, {
+    enqueueSnackbar(`Pasajeros recuperados: ${res.length}`, {
       variant: code,
       autoHideDuration: 3000,
       anchorOrigin: {
@@ -85,8 +85,8 @@ const usePassengersComponents = () => {
     onSuccess,
     onError
   )
-  const {mutate: postPassenger} = usePostPassenger()
-  const {mutate: putPassenger} = usePutPassenger()
+  const {mutate: postPassenger, isLoading: isLoadingPost} = usePostPassenger()
+  const {mutate: putPassenger, isLoading: isLoadingPut} = usePutPassenger()
   const {mutate: deletePassenger} = useDeletePassenger()
 
   const handleDelete = (id) => {
@@ -98,13 +98,13 @@ const usePassengersComponents = () => {
     e.preventDefault()
 
     if (field === 'documento') {
-      setLastname(null) // OJO ACA2
-      setAll(null) // OJO ACA2
+      setLastname(null)
+      setAll(null)
       setDocument(e.target.elements.query.value)
     }
     if (field === 'apellido') {
-      setDocument(null) // OJO ACA2
-      setAll(null) // OJO ACA2
+      setDocument(null)
+      setAll(null)
       setLastname(e.target.elements.query.value)
     }
     e.target.elements.query.value = ''
@@ -113,6 +113,7 @@ const usePassengersComponents = () => {
   return {
     activeData,
     dataArray: [...allData, ...dataByDocument, ...dataByLastname],
+    isLoading: isLoadingPost || isLoadingPut,
     bottom,
     dataByDocument,
     dataByLastname,

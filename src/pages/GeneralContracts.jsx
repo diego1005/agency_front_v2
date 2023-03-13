@@ -45,13 +45,14 @@ const GeneralContracts = () => {
           </Typography>
 
           {!institutionCodes || (id && !generalContract) ? (
-            <Spinner height={251} />
+            <Spinner height={315} />
           ) : (
             <Form
-              generalContract={generalContract}
+              generalContract={generalContract?.generalContract}
               initialValues={initialValues}
               institutionCodes={institutionCodes}
               setInitialValues={setInitialValues}
+              setSearchParams={setSearchParams}
             />
           )}
         </Paper>

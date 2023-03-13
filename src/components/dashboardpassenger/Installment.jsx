@@ -1,7 +1,7 @@
 import {Button, CardActions, CardContent, Typography, Grid, Paper} from '@mui/material'
 import {DateTime} from 'luxon'
-import LocalAtmTwoToneIcon from '@mui/icons-material/LocalAtmTwoTone'
 import {useEffect, useState} from 'react'
+import LocalAtmTwoToneIcon from '@mui/icons-material/LocalAtmTwoTone'
 
 import formatCurrency from '../../utils/formatCurrency'
 import formatDate from '../../utils/formatDate'
@@ -26,7 +26,8 @@ const InstallmentCard = ({checked, description, flag, installment, installments}
       id: installment.id,
       quantity: 1,
       unit_price: Number(installment.valor_segundo_vencimiento),
-      title: description,
+      title: `Cuota ${installment.numero} de ${installments} - Verdagua Viajes`,
+      description,
       currency_id: 'ARS',
     }
 
@@ -117,13 +118,12 @@ const InstallmentCard = ({checked, description, flag, installment, installments}
         >
           <Button
             fullWidth
-            color="success"
+            color="secondary"
             disabled={flag || !initPoint}
             size="small"
             variant="contained"
-            onClick={() => console.log(installment)}
           >
-            Pagar
+            Pagar con mercadopago
           </Button>
         </a>
       </CardActions>

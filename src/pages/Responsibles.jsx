@@ -44,6 +44,7 @@ const Responsibles = () => {
             initialValues={initialValues}
             responsible={responsible}
             setInitialValues={setInitialValues}
+            setSearchParams={setSearchParams}
           />
         </Paper>
       </Grid>
